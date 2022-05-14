@@ -1,5 +1,5 @@
 # LEiDA(Cabral 2017. Sci Rep.)-PART2: K-means and centroids for each brain states
-# Author: zhangjiaqi(Smile.Z), CASIA, Brainnetome
+# author: zhangjiaqi(Smile.Z), CASIA, Brainnetome
 import numpy as np 
 from scipy.signal import hilbert
 from scipy.spatial.distance import cosine
@@ -13,6 +13,7 @@ import pandas as pd
 from sklearn.decomposition import PCA
 import os
 from validclust import ValidClust
+from mpl_toolkits.mplot3d import Axes3D
 
 
 # get centroids for each brain states and sort by probability
@@ -37,11 +38,24 @@ def EMP_BrainStates(V1, k):
     vec = PCA(n_components=2).fit_transform(X)
     df2 = pd.DataFrame(vec)
     df2['labels'] = km.labels_
-    visual_vec = []
+    visual_vec = k*[0]
     for m in range(k):
-        visual_vec[m] = df3[df2['labels'] == m]
-        plt.plot(visual_vec[m][0], visual_vec[m][1])
-    plt.savefig('kmeans_visualize.png')
+        visual_vec[m] = df2[df2['labels'] == m]
+        plt.scatter(visual_vec[m][0], visual_vec[m][1], s=5)
+    plt.savefig('kmeans_visualize_2d.png')
+    plt.clf()
+    
+    fig = plt.figure()
+    ax = Axes3D(fig)
+    vec = PCA(n_components=3).fit_transform(X)
+    df3 = pd.DataFrame(vec)
+    df3['labels'] = km.labels_
+    visual_vec = k*[0]
+    for m in range(k):
+        visual_vec[m] = df3[df3['labels'] == m]
+        ax.scatter(visual_vec[m][0], visual_vec[m][1], visual_vec[m][2],s=5)
+    plt.savefig('kmeans_visualize_3d.png')
+    
 
     return centroids
 
