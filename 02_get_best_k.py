@@ -1,3 +1,5 @@
+# LEiDA(Cabral 2017. Sci Rep.)-PART2: K-means and centroids for each brain states
+# Author: zhangjiaqi(Smile.Z), CASIA, Brainnetome
 import numpy as np 
 from scipy.signal import hilbert
 from scipy.spatial.distance import cosine
