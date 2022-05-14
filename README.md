@@ -1,2 +1,2 @@
 # LEiDA_python
-LEiDA(Cabral2017) python version
+LEiDA(Cabral 2017. Sci Rep.) python version
