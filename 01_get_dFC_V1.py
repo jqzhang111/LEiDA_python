@@ -1,4 +1,4 @@
-# LEiDA(Cabral 2017. Sci Rep.)-PART1: get V1 across all subjects
+# LEiDA(Cabral 2017. Sci Rep.)-PART1: get dFC and V1 across all subjects and time points
 # author: zhangjiaqi(Smile.Z), CASIA, Brainnetome
 import numpy as np 
 from scipy.signal import hilbert
