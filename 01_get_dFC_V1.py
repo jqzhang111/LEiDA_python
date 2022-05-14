@@ -1,4 +1,5 @@
-#LEiDA(Cabral 2017. Sci Rep.)-PART1: get V1 across all subjects
+# LEiDA(Cabral 2017. Sci Rep.)-PART1: get V1 across all subjects
+# author: zhangjiaqi(Smile.Z), CASIA, Brainnetome
 import numpy as np 
 from scipy.signal import hilbert
 from scipy.spatial.distance import cosine
