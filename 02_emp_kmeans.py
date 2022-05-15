@@ -33,7 +33,7 @@ def Decide_K(V1):
 
 # get centroids for each brain states and sort by probability
 # V1: (nsubjects * T) * N
-# k:  cluster number
+# k: best cluster number
 
 def EMP_BrainStates(V1, k):
     X = []
@@ -47,7 +47,8 @@ def EMP_BrainStates(V1, k):
     count = pd.Series(km.labels_).value_counts()
     center = pd.DataFrame(km.cluster_centers_)
     r= pd.concat([center, count], axis=1)
-    r.to_csv('centroids_'+str(k)+'_cluster.csv')
+    np.savetxt(str(k)+'/centroids_'+str(k)+'_count.txt', np.array(count), delimiter=' ')
+    r.to_csv(str(k)+'/centroids_'+str(k)+'_cluster.csv')
 
     plt.clf()
     vec = PCA(n_components=2).fit_transform(X)
@@ -57,7 +58,7 @@ def EMP_BrainStates(V1, k):
     for m in range(k):
         visual_vec[m] = df2[df2['labels'] == m]
         plt.scatter(visual_vec[m][0], visual_vec[m][1], s=5)
-    plt.savefig('kmeans_visualize_2d_'+str(k)+'_cluster.png')
+    plt.savefig(str(k)+'/kmeans_visualize_2d_'+str(k)+'_cluster.png')
     plt.clf()
     
     fig = plt.figure()
@@ -69,7 +70,7 @@ def EMP_BrainStates(V1, k):
     for m in range(k):
         visual_vec[m] = df3[df3['labels'] == m]
         ax.scatter(visual_vec[m][0], visual_vec[m][1], visual_vec[m][2],s=5)
-    plt.savefig('kmeans_visualize_3d_'+str(k)+'_cluster.png')
+    plt.savefig(str(k)+'/kmeans_visualize_3d_'+str(k)+'_cluster.png')
     
 
     return centroids
@@ -102,8 +103,6 @@ if __name__ == '__main__':
     Decide_K(V1)
 
     for k in range(2, 21):
+        os.mkdirs('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step2_emp_kmeans/'+str(k))
         center = EMP_BrainStates(V1, k)
-        np.savetxt('centroids_'+str(k)+'_cluster.txt', center, delimiter=' ')
-    
-    
-
+        np.savetxt(str(k)+'/centroids_'+str(k)+'_cluster.txt', center, delimiter=' ')
