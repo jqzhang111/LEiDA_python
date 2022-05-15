@@ -103,6 +103,6 @@ if __name__ == '__main__':
     Decide_K(V1)
 
     for k in range(2, 21):
-        os.mkdirs('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step2_emp_kmeans/'+str(k))
+        os.makedirs('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step2_emp_kmeans/'+str(k))
         center = EMP_BrainStates(V1, k)
         np.savetxt(str(k)+'/centroids_'+str(k)+'_cluster.txt', center, delimiter=' ')
