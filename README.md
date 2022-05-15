@@ -1,6 +1,6 @@
 # LEiDA_python
 
-LEiDA(Cabral 2017. Sci Rep.) python version
+LEiDA(Cabral 2017. Sci Rep.) python version use for 2022MDD_NM
 
 Any questions please feel free to contact me: zhangjiaqi2021@ia.ac.cn, smile.zhang123@gmail.com
 
