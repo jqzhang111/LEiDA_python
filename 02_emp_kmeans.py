@@ -33,7 +33,7 @@ def Decide_K(V1):
 
 # get centroids for each brain states and sort by probability
 # V1: (nsubjects * T) * N
-# k: best cluster number
+# k:  cluster number
 
 def EMP_BrainStates(V1, k):
     X = []
