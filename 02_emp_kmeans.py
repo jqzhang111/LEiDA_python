@@ -47,7 +47,7 @@ def EMP_BrainStates(V1, k):
     count = pd.Series(km.labels_).value_counts()
     center = pd.DataFrame(km.cluster_centers_)
     r= pd.concat([center, count], axis=1)
-    r.to_csv("centroids.csv")
+    r.to_csv('centroids_'+str(k)+'_cluster.csv')
 
     plt.clf()
     vec = PCA(n_components=2).fit_transform(X)
