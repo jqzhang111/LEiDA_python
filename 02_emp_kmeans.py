@@ -16,6 +16,21 @@ from validclust import ValidClust
 from mpl_toolkits.mplot3d import Axes3D
 
 
+# get Best K
+# V1: (nsubjects * T) * N
+# M: each k run M times for average score
+
+def Decide_K(V1):
+    X = []
+    for i in range(V1.shape[0]):
+        X.append(V1[i])
+    vclust = ValidClust(k=list(range(2, 21)), methods = ['kmeans'])
+    cvi_vals = vclust.fit_predict(X)
+    cvi_vals.to_csv('DecideK/cluster.csv')
+    vclust.plot()
+    plt.savefig('DecideK/cluster.png')
+
+
 # get centroids for each brain states and sort by probability
 # V1: (nsubjects * T) * N
 # k: best cluster number
@@ -42,7 +57,7 @@ def EMP_BrainStates(V1, k):
     for m in range(k):
         visual_vec[m] = df2[df2['labels'] == m]
         plt.scatter(visual_vec[m][0], visual_vec[m][1], s=5)
-    plt.savefig('kmeans_visualize_2d.png')
+    plt.savefig('kmeans_visualize_2d_'+str(k)+'_cluster.png')
     plt.clf()
     
     fig = plt.figure()
@@ -54,12 +69,12 @@ def EMP_BrainStates(V1, k):
     for m in range(k):
         visual_vec[m] = df3[df3['labels'] == m]
         ax.scatter(visual_vec[m][0], visual_vec[m][1], visual_vec[m][2],s=5)
-    plt.savefig('kmeans_visualize_3d.png')
+    plt.savefig('kmeans_visualize_3d_'+str(k)+'_cluster.png')
     
 
     return centroids
-
-
+    
+    
 if __name__ == '__main__':
     path_mdd = '/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step1_get_dFC_V1/V1/MDD/'
     path_hc = '/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step1_get_dFC_V1/V1/HC/'
@@ -84,7 +99,11 @@ if __name__ == '__main__':
             V1[i, :] = vec[j]
             i = i+1
 
-    center = EMP_BrainStates(V1, 3)
-    np.savetxt('centroids.txt', center, delimiter=' ')
+    Decide_K(V1)
 
+    for k in range(2, 21):
+        center = EMP_BrainStates(V1, k)
+        np.savetxt('centroids_'+str(k)+'_cluster.txt', center, delimiter=' ')
+    
+    
 
