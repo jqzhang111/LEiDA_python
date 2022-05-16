@@ -209,7 +209,7 @@ if __name__ == "__main__":
     f = open('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/mdd1.txt', 'r')
     mdd1 = f.readlines()
     for file in mdd1:
-        path = mdd_path+file
+        path = mdd_path+file.replace('\n', '')+'.txt'
         vec = np.loadtxt(path)
         for j in range(vec.shape[0]):
             V1[i, :] = vec[j]
@@ -236,7 +236,7 @@ if __name__ == "__main__":
     f = open('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/mdd2.txt', 'r')
     mdd2 = f.readlines()
     for file in mdd2:
-        path = mdd_path+file
+        path = mdd_path+file.replace('\n', '')+'.txt'
         vec = np.loadtxt(path)
         for j in range(vec.shape[0]):
             V1[i, :] = vec[j]
