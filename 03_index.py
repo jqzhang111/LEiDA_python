@@ -202,10 +202,13 @@ if __name__ == "__main__":
         print(sub[:10]+' finished.')
 
 
-    print("MDD Group Starting...")
-    V1 = np.zeros((20*230, 246))
+    print("MDD Group1 Starting...")
+    V1 = np.zeros((11*230, 246))
     i = 0
-    for file in mdd_file:
+    mdd1 = []
+    f = open('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/mdd1.txt', 'r')
+    mdd1 = f.readlines()
+    for file in mdd1:
         path = mdd_path+file
         vec = np.loadtxt(path)
         for j in range(vec.shape[0]):
@@ -213,17 +216,44 @@ if __name__ == "__main__":
             i = i+1
 
     for K in range(2, 21):
-        os.makedirs('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/MDDGroup/'+str(K))
+        os.makedirs('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/MDDGroup1/'+str(K))
         cluster = Sign(V1, K)
-        np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/MDDGroup/'+str(K)+'/V1_cluster.txt', np.array(cluster), delimiter=' ')
+        np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/MDDGroup1/'+str(K)+'/V1_cluster.txt', np.array(cluster), delimiter=' ')
         fo = FO(V1, cluster, K)
-        np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/MDDGroup/'+str(K)+'/FO.txt', np.array(fo), delimiter=' ')
+        np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/MDDGroup1/'+str(K)+'/FO.txt', np.array(fo), delimiter=' ')
         dt = DT(cluster, K)
-        np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/MDDGroup/'+str(K)+'/DT.txt', np.array(dt), delimiter=' ')
+        np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/MDDGroup1/'+str(K)+'/DT.txt', np.array(dt), delimiter=' ')
         markov_matrix = transition_matrix(cluster, K)
-        np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/MDDGroup/'+str(K)+'/Markov_Matrix.txt', np.array(markov_matrix), delimiter=' ')
+        np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/MDDGroup1/'+str(K)+'/Markov_Matrix.txt', np.array(markov_matrix), delimiter=' ')
 
-    print("MDD Group finished.")
+    print("MDD Group1 finished.")
+
+
+    print("MDD Group2 Starting...")
+    V1 = np.zeros((9*230, 246))
+    i = 0
+    mdd2 = []
+    f = open('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/mdd2.txt', 'r')
+    mdd2 = f.readlines()
+    for file in mdd2:
+        path = mdd_path+file
+        vec = np.loadtxt(path)
+        for j in range(vec.shape[0]):
+            V1[i, :] = vec[j]
+            i = i+1
+
+    for K in range(2, 21):
+        os.makedirs('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/MDDGroup2/'+str(K))
+        cluster = Sign(V1, K)
+        np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/MDDGroup2/'+str(K)+'/V1_cluster.txt', np.array(cluster), delimiter=' ')
+        fo = FO(V1, cluster, K)
+        np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/MDDGroup2/'+str(K)+'/FO.txt', np.array(fo), delimiter=' ')
+        dt = DT(cluster, K)
+        np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/MDDGroup2/'+str(K)+'/DT.txt', np.array(dt), delimiter=' ')
+        markov_matrix = transition_matrix(cluster, K)
+        np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step3_index/MDDGroup2/'+str(K)+'/Markov_Matrix.txt', np.array(markov_matrix), delimiter=' ')
+
+    print("MDD Group2 finished.")
 
 
     print("HC Group Starting...")
