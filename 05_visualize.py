@@ -34,7 +34,7 @@ def Func_Network(K):
 
     x = list(range(1, K+1, 1))
     xx = list(range(0, K+1, 1))
-    plt.figure(figsize=(25, 5))
+    plt.figure(figsize=(25, 18))
     plt.xticks(np.arange(len(xx)), xx)
     plt.axhline(y=0)
     wid = 1.0/8
@@ -152,11 +152,16 @@ def Markov(K, g1, g2):
         
     m1 = list(m1)
     m2 = list(m2)
-    plt.figure(figsize=(10, 10))
-    sns.heatmap(m1, annot=annot1, vmax=1, vmin=0, fmt='', square=True)
+    x_axis_labels = list(range(1, K+1, 1))
+    y_axis_labels = list(range(1, K+1, 1))
+    if K<7:
+      plt.figure(figsize=(10, 10))
+    else:
+      plt.figure(figsize=(20, 20))
+    sns.heatmap(m1, annot=annot1, vmax=1, vmin=0, fmt='', square=True, xticklabels=x_axis_labels, yticklabels=y_axis_labels)
     plt.savefig('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step5_visualize/Markov/'+str(K)+'/'+g1+'_VS_'+g2+'_Markov_'+g1+'_.png')
     plt.clf() 
-    sns.heatmap(m2, annot=annot2, vmax=1, vmin=0, fmt='', square=True)
+    sns.heatmap(m2, annot=annot2, vmax=1, vmin=0, fmt='', square=True, xticklabels=x_axis_labels, yticklabels=y_axis_labels)
     plt.savefig('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step5_visualize/Markov/'+str(K)+'/'+g1+'_VS_'+g2+'_Markov_'+g2+'_.png')
     plt.clf()
 
