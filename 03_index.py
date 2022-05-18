@@ -28,6 +28,7 @@ def Yeo7Corr(K):
     p_value = np.zeros((K, 7))
     for i in range(K):
         for j in range(7):
+            centers[i, :][centers[i, :]<0] = 0
             corr[i][j] = stats.pearsonr(centers[i, :], yeo7[j, :])[0]
             p_value[i][j] = stats.pearsonr(centers[i, :], yeo7[j, :])[1]
     return corr, p_value
@@ -43,6 +44,7 @@ def Yeo17Corr(K):
     p_value = np.zeros((K, 17))
     for i in range(K):
         for j in range(17):
+            centers[i, :][centers[i, :]<0] = 0
             corr[i][j] = stats.pearsonr(centers[i, :], yeo17[j, :])[0]
             p_value[i][j] = stats.pearsonr(centers[i, :], yeo17[j, :])[1]
     return corr, p_value
