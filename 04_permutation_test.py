@@ -16,14 +16,14 @@ from validclust import ValidClust
 from mpl_toolkits.mplot3d import Axes3D
 import itertools
 from scipy import stats
-from mlxtend.evaluate import permutation_test
+from scipy.stats import ttest_ind
 
 
 # K: number of cluster
 # s1: name list of group1
 # s2: name list of group2
 def Permutation_Test(K, s1, s2, path):
-    alpha = 0.05/K
+    alpha = 0.05
     # permutation test for dwell time
     print('Test for dwell time, K='+str(K)+'.')
     dt1 = np.zeros((len(s1), K))
@@ -37,10 +37,14 @@ def Permutation_Test(K, s1, s2, path):
 
     p = []
     for j in range(K):
-        p_value = permutation_test(dt1[:, j], dt2[:, j], num_rounds=10000)
-        if p_value<alpha:
+        d1 = list(dt1[:, j])
+        d2 = list(dt2[:, j])
+        newd1 = [x for x in d1 if x != 'nan']
+        newd2 = [x for x in d2 if x != 'nan']
+        res = ttest_ind(newd1, newd2, permutations=1000)
+        if res.pvalue<alpha:
             print("State "+str(j+1)+" is obviously different.")
-        p.append(p_value)
+        p.append(res.pvalue)
     np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step4_permutaion_test/'+path+'/DT/'+str(K)+'/Dwell_Time_Test.txt', np.array(p), delimiter=' ')
     
     # permutation test for fractional occupancy
@@ -59,10 +63,14 @@ def Permutation_Test(K, s1, s2, path):
 
     p = []
     for j in range(K):
-        p_value = permutation_test(fo1[:, j], fo2[:, j], num_rounds=10000)
-        if p_value<alpha:
+        f1 = list(fo1[:, j])
+        f2 = list(fo2[:, j])
+        newf1 = [x for x in f1 if x != 'nan']
+        newf2 = [x for x in f2 if x != 'nan']
+        res = ttest_ind(newf1, newf2, permutations=1000)
+        if res.pvalue<alpha:
             print("State "+str(j+1)+" is obviously different.")
-        p.append(p_value)
+        p.append(res.pvalue)
     np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step4_permutaion_test/'+path+'/FO/'+str(K)+'/Fractional_Occupancy_Test.txt', np.array(p), delimiter=' ')
 
     # permutation test for cluster condition
@@ -88,10 +96,14 @@ def Permutation_Test(K, s1, s2, path):
 
     p = []
     for j in range(K):
-        p_value = permutation_test(cluster1[:, j], cluster2[:, j], num_rounds=10000)
-        if p_value<alpha:
+        c1 = list(cluster1[:, j])
+        c2 = list(cluster2[:, j])
+        newc1 = [x for x in c1 if x != 'nan']
+        newc2 = [x for x in c2 if x != 'nan']
+        res = ttest_ind(newc1, newc2, permutations=1000)
+        if res.pvalue<alpha:
             print("State "+str(j+1)+" is obviously different.")
-        p.append(p_value)
+        p.append(res.pvalue)
     np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step4_permutaion_test/'+path+'/Cluster/'+str(K)+'/Cluster_Condition_Test.txt', np.array(p), delimiter=' ')
 
 
@@ -115,10 +127,14 @@ def Permutation_Test(K, s1, s2, path):
     p = np.zeros((K, K))
     for m in range(K):
         for n in range(K): 
-            p_value = permutation_test(ma1[:, m, n], ma2[:, m, n], num_rounds=10000)
-            if p_value<alpha:
+            m1 = list(ma1[:, m, n])
+            m2 = list(ma2[:, m, n])
+            newm1 = [x for x in m1 if x != 'nan']
+            newm2 = [x for x in m2 if x != 'nan']
+            res = ttest_ind(newm1, newm2, permutations=1000)
+            if res.pvalue<alpha:
                 print("Transition Probability from State "+str(m+1)+" to State "+str(n+1) +" is obviously different.")
-            p[m][n] = p_value
+            p[m][n] = res.pvalue
     np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step4_permutaion_test/'+path+'/Markov/'+str(K)+'/Transition_Probability_Test.txt', np.array(p), delimiter=' ')
 
 
@@ -154,24 +170,28 @@ if __name__ == '__main__':
         os.makedirs('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step4_permutaion_test/MDD1_VS_MDD2/Cluster/'+str(K))
         os.makedirs('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step4_permutaion_test/MDD1_VS_MDD2/Markov/'+str(K))
 
+        print("MDD Group1 VS MDD Group2 starting...")
+        Permutation_Test(K, mdd1, mdd2,'MDD1_VS_MDD2')
+        print("MDD Group1 VS MDD Group2 finished.")
+
+    for K in range(2, 21):
         os.makedirs('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step4_permutaion_test/MDD1_VS_HC/DT/'+str(K))
         os.makedirs('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step4_permutaion_test/MDD1_VS_HC/FO/'+str(K))
         os.makedirs('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step4_permutaion_test/MDD1_VS_HC/Cluster/'+str(K))
         os.makedirs('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step4_permutaion_test/MDD1_VS_HC/Markov/'+str(K))
 
+        print("MDD Group1 VS HC Group starting...")
+        Permutation_Test(K, mdd1, hc, 'MDD1_VS_HC')
+        print("MDD Group1 VS HC Group finished.")
+    
+    for K in range(2, 21):
         os.makedirs('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step4_permutaion_test/MDD2_VS_HC/DT/'+str(K))
         os.makedirs('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step4_permutaion_test/MDD2_VS_HC/FO/'+str(K))
         os.makedirs('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step4_permutaion_test/MDD2_VS_HC/Cluster/'+str(K))
         os.makedirs('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step4_permutaion_test/MDD2_VS_HC/Markov/'+str(K))
 
-        print("MDD Group1 VS MDD Group2 starting...")
-        Permutation_Test(K, mdd1, mdd2,'MDD1_VS_MDD2')
-        print("MDD Group1 VS MDD Group2 finished.")
-
-        print("MDD Group1 VS HC Group starting...")
-        Permutation_Test(K, mdd1, hc, 'MDD1_VS_HC')
-        print("MDD Group1 VS HC Group finished.")
-
         print("MDD Group2 VS HC Group starting...")
         Permutation_Test(K, mdd2, hc, 'MDD2_VS_HC')
         print("MDD Group2 VS HC Group finished.")
+
+
