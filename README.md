@@ -10,3 +10,5 @@ Any questions please feel free to contact me: zhangjiaqi2021@ia.ac.cn, smile.zha
 02_get_emp_kmeans.py: use k-means and 'validclust'(https://validclust.readthedocs.io/en/latest/) to decide the best k. Run k from 2-20 and get the corresponding centroids for each brain states.Please modify your time series file path and range of k before you use it.
 
 03_index.py: calculate index for each brain state including fractional occupancy, dwell time, markov chain trainsition matrix, community for each cluster(k from 2 to 20), correlation with yeo7/yeo17(using 'dice_correlation.py' in https://github.com/neurodata/neuroparc/tree/master/scripts)
+
+04_permutation_test.py: assess differences on measures using a permutation-based t test(5000 permutations and alpha = 0.05/K for a Bonferroni correction)
