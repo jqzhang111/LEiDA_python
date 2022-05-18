@@ -41,7 +41,7 @@ def Permutation_Test(K, s1, s2, path):
         d2 = list(dt2[:, j])
         newd1 = [x for x in d1 if x != 'nan']
         newd2 = [x for x in d2 if x != 'nan']
-        res = ttest_ind(newd1, newd2, permutations=1000)
+        res = ttest_ind(newd1, newd2, permutations=5000)
         if res.pvalue<alpha:
             print("State "+str(j+1)+" is obviously different.")
         p.append(res.pvalue)
@@ -67,7 +67,7 @@ def Permutation_Test(K, s1, s2, path):
         f2 = list(fo2[:, j])
         newf1 = [x for x in f1 if x != 'nan']
         newf2 = [x for x in f2 if x != 'nan']
-        res = ttest_ind(newf1, newf2, permutations=1000)
+        res = ttest_ind(newf1, newf2, permutations=5000)
         if res.pvalue<alpha:
             print("State "+str(j+1)+" is obviously different.")
         p.append(res.pvalue)
@@ -100,7 +100,7 @@ def Permutation_Test(K, s1, s2, path):
         c2 = list(cluster2[:, j])
         newc1 = [x for x in c1 if x != 'nan']
         newc2 = [x for x in c2 if x != 'nan']
-        res = ttest_ind(newc1, newc2, permutations=1000)
+        res = ttest_ind(newc1, newc2, permutations=5000)
         if res.pvalue<alpha:
             print("State "+str(j+1)+" is obviously different.")
         p.append(res.pvalue)
@@ -131,7 +131,7 @@ def Permutation_Test(K, s1, s2, path):
             m2 = list(ma2[:, m, n])
             newm1 = [x for x in m1 if x != 'nan']
             newm2 = [x for x in m2 if x != 'nan']
-            res = ttest_ind(newm1, newm2, permutations=1000)
+            res = ttest_ind(newm1, newm2, permutations=5000)
             if res.pvalue<alpha:
                 print("Transition Probability from State "+str(m+1)+" to State "+str(n+1) +" is obviously different.")
             p[m][n] = res.pvalue
