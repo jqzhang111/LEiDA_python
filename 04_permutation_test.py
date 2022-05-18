@@ -39,12 +39,15 @@ def Permutation_Test(K, s1, s2, path):
     for j in range(K):
         d1 = list(dt1[:, j])
         d2 = list(dt2[:, j])
-        newd1 = [x for x in d1 if x != 'nan']
-        newd2 = [x for x in d2 if x != 'nan']
+        newd1 = [x for x in d1 if not np.isnan(x)]
+        newd2 = [x for x in d2 if not np.isnan(x)]
         res = ttest_ind(newd1, newd2, permutations=5000)
         if res.pvalue<alpha:
             print("State "+str(j+1)+" is obviously different.")
         p.append(res.pvalue)
+        if np.isnan(res.pvalue):
+            print(newd1)
+            print(newd2)
     np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step4_permutaion_test/'+path+'/DT/'+str(K)+'/Dwell_Time_Test.txt', np.array(p), delimiter=' ')
     
     # permutation test for fractional occupancy
@@ -65,12 +68,15 @@ def Permutation_Test(K, s1, s2, path):
     for j in range(K):
         f1 = list(fo1[:, j])
         f2 = list(fo2[:, j])
-        newf1 = [x for x in f1 if x != 'nan']
-        newf2 = [x for x in f2 if x != 'nan']
+        newf1 = [x for x in f1 if not np.isnan(x)]
+        newf2 = [x for x in f2 if not np.isnan(x)]
         res = ttest_ind(newf1, newf2, permutations=5000)
         if res.pvalue<alpha:
             print("State "+str(j+1)+" is obviously different.")
         p.append(res.pvalue)
+        if np.isnan(res.pvalue):
+            print(newf1)
+            print(newf2)
     np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step4_permutaion_test/'+path+'/FO/'+str(K)+'/Fractional_Occupancy_Test.txt', np.array(p), delimiter=' ')
 
     # permutation test for cluster condition
@@ -98,12 +104,15 @@ def Permutation_Test(K, s1, s2, path):
     for j in range(K):
         c1 = list(cluster1[:, j])
         c2 = list(cluster2[:, j])
-        newc1 = [x for x in c1 if x != 'nan']
-        newc2 = [x for x in c2 if x != 'nan']
+        newc1 = [x for x in c1 if not np.isnan(x)]
+        newc2 = [x for x in c2 if not np.isnan(x)]
         res = ttest_ind(newc1, newc2, permutations=5000)
         if res.pvalue<alpha:
             print("State "+str(j+1)+" is obviously different.")
         p.append(res.pvalue)
+        if np.isnan(res.pvalue):
+            print(newc1)
+            print(newc2)
     np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step4_permutaion_test/'+path+'/Cluster/'+str(K)+'/Cluster_Condition_Test.txt', np.array(p), delimiter=' ')
 
 
@@ -129,12 +138,15 @@ def Permutation_Test(K, s1, s2, path):
         for n in range(K): 
             m1 = list(ma1[:, m, n])
             m2 = list(ma2[:, m, n])
-            newm1 = [x for x in m1 if x != 'nan']
-            newm2 = [x for x in m2 if x != 'nan']
+            newm1 = [x for x in m1 if not np.isnan(x)]
+            newm2 = [x for x in m2 if not np.isnan(x)]
             res = ttest_ind(newm1, newm2, permutations=5000)
             if res.pvalue<alpha:
                 print("Transition Probability from State "+str(m+1)+" to State "+str(n+1) +" is obviously different.")
             p[m][n] = res.pvalue
+            if np.isnan(res.pvalue):
+              print(newm1)
+              print(newm2)
     np.savetxt('/share/home/zhangjiaqi/2022Project/HOPF/02_LEiDA_Empircal/step4_permutaion_test/'+path+'/Markov/'+str(K)+'/Transition_Probability_Test.txt', np.array(p), delimiter=' ')
 
 
